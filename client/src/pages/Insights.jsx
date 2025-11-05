@@ -142,12 +142,32 @@ export default function Insights() {
   async function loadInsights(userId) {
     try {
       const response = await fetch(`${base}/api/insights/${userId}`);
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => "Unknown error");
+        console.error("Error loading insights:", response.status, errorText);
+        setInsights({
+          notifications: [],
+          unreadCount: 0,
+          metrics: {},
+        });
+        setLoading(false);
+        return null;
+      }
       const data = await response.json();
-      setInsights(data);
+      setInsights({
+        notifications: data.notifications || [],
+        unreadCount: data.unreadCount || 0,
+        metrics: data.metrics || {},
+      });
       setLoading(false);
       return data;
     } catch (error) {
       console.error("Error loading insights:", error);
+      setInsights({
+        notifications: [],
+        unreadCount: 0,
+        metrics: {},
+      });
       setLoading(false);
       return null;
     }
@@ -305,7 +325,7 @@ export default function Insights() {
     }
   }
 
-  const filteredNotifications = insights.notifications.filter((n) => {
+  const filteredNotifications = (insights.notifications || []).filter((n) => {
     if (filterType === "all") return true;
     return n.type === filterType;
   });

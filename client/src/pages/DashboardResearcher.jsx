@@ -376,8 +376,6 @@ export default function DashboardResearcher() {
       if (response.ok) {
         toast.success("Message sent successfully!");
         setMessageModal({ open: false, collaborator: null, body: "" });
-        // Navigate to insights page with conversation
-        navigate(`/insights?conversation=${collaboratorId}`);
       } else {
         toast.error("Failed to send message");
       }

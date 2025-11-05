@@ -77,8 +77,14 @@ export default function DashboardPatient() {
             `${base}/api/recommendations/${userData._id || userData.id}`
           );
           if (!response.ok) {
-            const errorText = await response.text().catch(() => "Unknown error");
-            console.error("Error fetching recommendations:", response.status, errorText);
+            const errorText = await response
+              .text()
+              .catch(() => "Unknown error");
+            console.error(
+              "Error fetching recommendations:",
+              response.status,
+              errorText
+            );
             toast.error("Failed to load recommendations");
             setData({ trials: [], publications: [], experts: [] });
           } else {
@@ -308,7 +314,7 @@ export default function DashboardPatient() {
     }
 
     const isFollowing = await checkFollowStatus(expertId);
-    
+
     try {
       if (isFollowing) {
         await fetch(`${base}/api/follow`, {
@@ -333,7 +339,7 @@ export default function DashboardPatient() {
         });
         toast.success("Connected successfully!");
       }
-      
+
       setFollowingStatus((prev) => ({
         ...prev,
         [expertId]: !isFollowing,
@@ -356,7 +362,10 @@ export default function DashboardPatient() {
     }
 
     try {
-      const expertId = messageModal.expert?._id || messageModal.expert?.userId || messageModal.expert?.id;
+      const expertId =
+        messageModal.expert?._id ||
+        messageModal.expert?.userId ||
+        messageModal.expert?.id;
       const response = await fetch(`${base}/api/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -372,8 +381,6 @@ export default function DashboardPatient() {
       if (response.ok) {
         toast.success("Message sent successfully!");
         setMessageModal({ open: false, expert: null, body: "" });
-        // Navigate to insights page with conversation
-        navigate(`/insights?conversation=${expertId}`);
       } else {
         toast.error("Failed to send message");
       }
@@ -386,7 +393,10 @@ export default function DashboardPatient() {
   // Load follow status when expert modal opens
   useEffect(() => {
     if (expertModal.expert && expertModal.open) {
-      const expertId = expertModal.expert._id || expertModal.expert.userId || expertModal.expert.id;
+      const expertId =
+        expertModal.expert._id ||
+        expertModal.expert.userId ||
+        expertModal.expert.id;
       checkFollowStatus(expertId).then((isFollowing) => {
         setFollowingStatus((prev) => ({
           ...prev,
@@ -1411,16 +1421,27 @@ export default function DashboardPatient() {
             <div className="flex gap-3 pt-4 border-t border-orange-200">
               <button
                 onClick={async () => {
-                  const expertId = expertModal.expert._id || expertModal.expert.userId || expertModal.expert.id;
+                  const expertId =
+                    expertModal.expert._id ||
+                    expertModal.expert.userId ||
+                    expertModal.expert.id;
                   await toggleFollow(expertId, "researcher");
                 }}
                 className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-semibold transition-all ${
-                  followingStatus[expertModal.expert._id || expertModal.expert.userId || expertModal.expert.id]
+                  followingStatus[
+                    expertModal.expert._id ||
+                      expertModal.expert.userId ||
+                      expertModal.expert.id
+                  ]
                     ? "bg-orange-100 text-orange-700 hover:bg-orange-200 border-2 border-orange-300"
                     : "bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600"
                 }`}
               >
-                {followingStatus[expertModal.expert._id || expertModal.expert.userId || expertModal.expert.id] ? (
+                {followingStatus[
+                  expertModal.expert._id ||
+                    expertModal.expert.userId ||
+                    expertModal.expert.id
+                ] ? (
                   <>
                     <Check className="w-4 h-4" />
                     Following
@@ -1453,9 +1474,7 @@ export default function DashboardPatient() {
       {/* Message Modal */}
       <Modal
         isOpen={messageModal.open}
-        onClose={() =>
-          setMessageModal({ open: false, expert: null, body: "" })
-        }
+        onClose={() => setMessageModal({ open: false, expert: null, body: "" })}
         title={`Message ${messageModal.expert?.name || "Expert"}`}
       >
         <div className="space-y-4">
