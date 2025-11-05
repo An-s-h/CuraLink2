@@ -532,7 +532,7 @@ export default function DashboardPatient() {
             },
             {
               label: "Expert Matches",
-              value: 6,
+              value: 4,
               icon: <Users className="w-6 h-6 text-orange-600" />,
               bgGradient: "from-orange-100 to-amber-100",
               borderColor: "border-orange-500",
