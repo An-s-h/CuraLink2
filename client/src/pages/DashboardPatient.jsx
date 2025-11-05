@@ -532,7 +532,7 @@ export default function DashboardPatient() {
             },
             {
               label: "Expert Matches",
-              value: 3,
+              value: 6,
               icon: <Users className="w-6 h-6 text-orange-600" />,
               bgGradient: "from-orange-100 to-amber-100",
               borderColor: "border-orange-500",
@@ -814,7 +814,7 @@ export default function DashboardPatient() {
             <div className="p-6 bg-gradient-to-b from-white to-orange-50/30">
               {data.experts.length > 0 ? (
                 <div className="space-y-4">
-                  {data.experts.slice(0, 3).map((e, idx) => {
+                  {data.experts.slice(0, 6).map((e, idx) => {
                     const expertId =
                       e._id || e.userId || e.id || `expert-${idx}`;
                     const isFavorited = favorites.some(

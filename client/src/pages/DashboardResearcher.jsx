@@ -822,7 +822,7 @@ export default function DashboardResearcher() {
             <div className="p-6 bg-gradient-to-b from-white to-orange-50/30">
               {data.experts.length > 0 ? (
                 <div className="space-y-4">
-                  {data.experts.slice(0, 3).map((e, idx) => {
+                  {data.experts.slice(0, 6).map((e, idx) => {
                     const collaboratorId =
                       e._id || e.userId || e.id || `collaborator-${idx}`;
                     const isFavorited = favorites.some(
